@@ -1,13 +1,11 @@
 const express = require('express');
-const app = express();
+const routes = express.Router();
 
-app.get('/', (req, res) => {
+routes.get('/', (req, res) => {
     res.json({
         success: true,
         message: 'Hello Node & Express!'
     })
 });
 
-app.listen(3000, () => {
-    console.log('[INFO] Running on port 3000!');
-})
+module.exports = routes
