@@ -5,16 +5,18 @@ module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      host: '127.0.0.1',
+      database: 'omnistack_11_db',
+      user: 'postgres',
+      password: 'root'
     },
     pool: {
       min: 2,
       max: 10
     },
     migrations: {
-      tableName: 'knex_migrations'
+      tableName: 'knex_migrations',
+      directory: 'src/database/migrations'
     }  
   },
 
