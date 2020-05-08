@@ -1,34 +1,18 @@
 const express = require('express');
 const routes = express.Router();
-const uuidJs = require('uuid')
-const db = require('./database/connection');
+const OngController = require('./controllers/OngController');
+const IncidentController = require('./controllers/IncidentController');
 
-routes.get('/ongs', async (req, res) => {
-    const data = await db.select('*').from('ong');
-    return res.json(data);
-});
+// Ongs controller
+routes.get('/ongs', OngController.getAll);
+routes.get('/ongs/:id', OngController.getById);
+routes.get('/ongs/:id/incidents', OngController.getIncidents);
+routes.post('/ongs', OngController.save);
 
-routes.get('/ongs/:id', async (req, res) => {
-    const id = req.params.id;
-    const data = await db.select('*').from('ong').where({ id });
+// Incidents controller
+routes.get('/incidents', IncidentController.getAll);
+routes.get('/incidents/:id', IncidentController.getById);
+routes.post('/incidents', IncidentController.save);
+routes.delete('/incidents/:id', IncidentController.delete);
 
-    return res.json(data);
-});
-
-routes.post('/ongs', async (req, res) => {
-    const id = uuidJs.v4()
-    const { name, email, whatsapp, city, uf } = req.body;
-
-    const obj = await db('ong').insert({
-        id,
-        name,
-        email,
-        whatsapp,
-        city,
-        uf
-    }, '*');
-
-    res.json(obj);
-});
-
-module.exports = routes
+module.exports = routes;
