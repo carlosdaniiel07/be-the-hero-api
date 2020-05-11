@@ -5,7 +5,7 @@ module.exports = {
     getAll: async (req, res) => {
         let { page = 1 } = req.query;
         const pageLimit = 5;
-        const incidentColumns = ['incident.id', 'incident.title', 'incident.value'];
+        const incidentColumns = ['incident.id', 'incident.title', 'incident.description', 'incident.value'];
         const ongColumns = ['ong.name', 'ong.email', 'ong.whatsapp', 'ong.city', 'ong.uf'];
 
         page = page <= 0 ? 1 : page;
@@ -25,7 +25,7 @@ module.exports = {
 
     getById: async (req, res) => {
         const id = req.params.id;
-        const incidentColumns = ['incident.id', 'incident.title', 'incident.value'];
+        const incidentColumns = ['incident.id', 'incident.title', 'incident.description', 'incident.value'];
         const ongColumns = ['ong.name', 'ong.email', 'ong.whatsapp', 'ong.city', 'ong.uf'];
 
         const data = await db.select(incidentColumns).from('incident')
