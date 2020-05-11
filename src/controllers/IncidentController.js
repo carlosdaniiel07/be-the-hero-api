@@ -3,10 +3,12 @@ const db = require('../database/connection');
 
 module.exports = {
     getAll: async (req, res) => {
-        const { page = 1 } = req.query;
+        let { page = 1 } = req.query;
         const pageLimit = 5;
         const incidentColumns = ['incident.id', 'incident.title', 'incident.value'];
         const ongColumns = ['ong.name', 'ong.email', 'ong.whatsapp', 'ong.city', 'ong.uf'];
+
+        page = page <= 0 ? 1 : page;
 
         const data = await db.select(incidentColumns).from('incident')
             .innerJoin('ong', 'incident.ong_id', 'ong.id').select(ongColumns)
