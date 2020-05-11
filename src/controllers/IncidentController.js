@@ -4,10 +4,15 @@ const db = require('../database/connection');
 module.exports = {
     getAll: async (req, res) => {
         const { page = 1 } = req.query;
-        const pageLimit = 5
+        const pageLimit = 5;
+        const incidentColumns = ['incident.id', 'incident.title', 'incident.value'];
+        const ongColumns = ['ong.name', 'ong.email', 'ong.whatsapp', 'ong.city', 'ong.uf'];
+
+        const data = await db.select(incidentColumns).from('incident')
+            .innerJoin('ong', 'incident.ong_id', 'ong.id').select(ongColumns)
+        .limit(pageLimit).offset((page - 1) * pageLimit);
         
-        const data = await db.select('*').from('incident').limit(pageLimit).offset((page - 1) * pageLimit);
-        const { count } = await db('incident').count().first()
+        const { count } = await db('incident').count().first();
         
         return res.json({
             data,
@@ -18,7 +23,12 @@ module.exports = {
 
     getById: async (req, res) => {
         const id = req.params.id;
-        const data = await db.select('*').from('incident').where({ id }).first();
+        const incidentColumns = ['incident.id', 'incident.title', 'incident.value'];
+        const ongColumns = ['ong.name', 'ong.email', 'ong.whatsapp', 'ong.city', 'ong.uf'];
+
+        const data = await db.select(incidentColumns).from('incident')
+            .innerJoin('ong', 'incident.ong_id', 'ong.id').select(ongColumns)
+        .where({ 'incident.id': id });
         
         return res.json(data);
     },
