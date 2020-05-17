@@ -37,14 +37,15 @@ module.exports = {
 
     save: async (req, res) => {
         const id = uuidJs.v4();
-        const { title, description, value, ong } = req.body;
+        const ong_id = req.params.id
+        const { title, description, value } = req.body;
 
         const obj = await db('incident').insert({
             id,
             title,
             description,
             value,
-            ong_id: ong.id
+            ong_id
         }, '*');
 
         return res.json(obj);

@@ -21,7 +21,7 @@ module.exports = {
         return res.json(data);
     },
 
-    save: async (req, res) => {
+    save: async (req, res) => {        
         const id = uuidJs.v4()
         const { name, email, whatsapp, city, uf } = req.body;
 

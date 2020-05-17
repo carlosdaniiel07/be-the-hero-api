@@ -2,17 +2,37 @@ const express = require('express');
 const routes = express.Router();
 const OngController = require('./controllers/OngController');
 const IncidentController = require('./controllers/IncidentController');
+const validate = require('./middlewares/validation.middleware')
+
+const { body, param } = require('express-validator');
 
 // Ongs controller
 routes.get('/ongs', OngController.getAll);
-routes.get('/ongs/:id', OngController.getById);
-routes.get('/ongs/:id/incidents', OngController.getIncidents);
-routes.post('/ongs', OngController.save);
+routes.get('/ongs/:id', validate([
+    param('id').isUUID(),
+]), OngController.getById);
+routes.get('/ongs/:id/incidents', validate([
+    param('id').isUUID(),
+]), OngController.getIncidents);
+routes.post('/ongs/:id/incidents', validate([
+    param('id').isUUID(),
+    body('title').isLength({ min: 5 }),
+    body('description').isLength({ min: 10 }),
+    body('value').isFloat({ min: 0.01 })
+]), IncidentController.save);
+routes.post('/ongs', validate([
+    body('name').isLength({ min: 3 }),
+    body('email').isEmail(),
+    body('whatsapp').notEmpty(),
+    body('city').notEmpty(),
+    body('uf').isLength({ min: 2, max: 2 }),
+]), OngController.save);
 
 // Incidents controller
 routes.get('/incidents', IncidentController.getAll);
-routes.get('/incidents/:id', IncidentController.getById);
-routes.post('/incidents', IncidentController.save);
+routes.get('/incidents/:id', validate([
+    param('id').isUUID()
+]), IncidentController.getById);
 routes.delete('/incidents/:id', IncidentController.delete);
 
 module.exports = routes;
