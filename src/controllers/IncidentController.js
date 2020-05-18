@@ -1,5 +1,5 @@
-const uuidJs = require('uuid');
 const db = require('../database/connection');
+const uuid = require('./../utils/uuid');
 
 module.exports = {
     getAll: async (req, res) => {
@@ -36,7 +36,7 @@ module.exports = {
     },
 
     save: async (req, res) => {
-        const id = uuidJs.v4();
+        const id = uuid.generate();
         const ong_id = req.params.id
         const { title, description, value } = req.body;
 

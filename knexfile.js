@@ -18,6 +18,23 @@ module.exports = {
       directory: 'src/database/migrations'
     }  
   },
+  test: {
+    client: 'postgresql',
+    connection: {
+      host : '127.0.0.1',
+      user : 'postgres',
+      password : 'root',
+      database : 'omnistack_11_db_test'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: 'src/database/migrations'
+    }  
+  },
   production: {
     client: 'postgresql',
     connection: {

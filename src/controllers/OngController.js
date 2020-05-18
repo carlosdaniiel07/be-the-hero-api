@@ -1,4 +1,4 @@
-const uuidJs = require('uuid');
+const uuid = require('./../utils/uuid');
 const db = require('../database/connection');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
     },
 
     save: async (req, res) => {        
-        const id = uuidJs.v4()
+        const id = uuid.generate();
         const { name, email, whatsapp, city, uf } = req.body;
 
         const obj = await db('ong').insert({
