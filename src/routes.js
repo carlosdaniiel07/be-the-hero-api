@@ -6,6 +6,15 @@ const validate = require('./middlewares/validation.middleware')
 
 const { body, param } = require('express-validator');
 
+// Default router
+routes.get('/', (req, res) => {
+    res.status(200).json({
+        statusCode: 200,
+        success: true,
+        timestamp: new Date().getTime()
+    });
+});
+
 // Ongs controller
 routes.get('/ongs', OngController.getAll);
 routes.get('/ongs/:id', validate([
